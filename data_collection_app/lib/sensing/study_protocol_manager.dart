@@ -32,6 +32,11 @@ class LocalStudyProtocolManager implements StudyProtocolManager {
     // Define the data end point , i.e., where to store data.
     // This example app only stores data locally in a SQLite DB
     protocol.dataEndPoint = SQLiteDataEndPoint();
+    
+    // Add firebase as a data end point.
+    // final FirebaseEndPoint firebaseEndPoint = FirebaseEndPoint(
+
+    // );
 
     // Define which devices are used for data collection.
     Smartphone phone = Smartphone();
@@ -46,8 +51,24 @@ class LocalStudyProtocolManager implements StudyProtocolManager {
 
     protocol.addConnectedDevice(locationService, phone);
 
-  //----------------------- Morning task------------------------
-  var morningTask = RPAppTask(
+    // ----------------------- Demographics task------------------------
+    var demographicsTask = RPAppTask(
+      type: SurveyUserTask.SURVEY_TYPE,
+      title: surveys.demographics.title,
+      description: surveys.demographics.description,
+      minutesToComplete: surveys.demographics.minutesToComplete,
+      rpTask: surveys.demographics.survey,
+      measures: [],
+      notification: true,
+    );
+    protocol.addTaskControl(
+      ImmediateTrigger(),
+      demographicsTask,
+      phone,
+    );
+
+    //----------------------- Morning task------------------------
+    var morningTask = RPAppTask(
       type: SurveyUserTask.SURVEY_TYPE,
       title: surveys.morning.title,
       description: surveys.morning.description,
@@ -57,35 +78,54 @@ class LocalStudyProtocolManager implements StudyProtocolManager {
       notification: true,
     );
 
-  protocol.addTaskControl(
-    RecurrentScheduledTrigger(
-      type: RecurrentType.daily,
-      time: const TimeOfDay(hour: 12, minute: 30),
-    ),
-    morningTask,
-    phone,
+    protocol.addTaskControl(
+      RecurrentScheduledTrigger(
+        type: RecurrentType.daily,
+        time: const TimeOfDay(hour: 7, minute: 00),
+      ),
+      morningTask,
+      phone,
+    );
 
-  );
-
-
-  // ----------------------- Demographics task------------------------
-  var demographicsTask = RPAppTask(
+    //----------------------- Evening task------------------------
+    var eveningTask = RPAppTask(
       type: SurveyUserTask.SURVEY_TYPE,
-      title: surveys.demographics.title,
-      description: surveys.demographics.description,
-      minutesToComplete: surveys.demographics.minutesToComplete,
-      rpTask: surveys.demographics.survey,
+      title: surveys.evening.title,
+      description: surveys.evening.description,
+      minutesToComplete: surveys.evening.minutesToComplete,
+      rpTask: surveys.evening.survey,
       measures: [],
       notification: true,
     );
-  protocol.addTaskControl(
-    ImmediateTrigger(),
-    demographicsTask,
-    phone,
-  );
+
+    protocol.addTaskControl(
+      RecurrentScheduledTrigger(
+        type: RecurrentType.daily,
+        time: const TimeOfDay(hour: 21, minute: 00),
+      ),
+      eveningTask,
+      phone,
+    );
+
+    //-----------------------Post workout task------------------------
+    var postWorkoutTask = RPAppTask(
+      type: SurveyUserTask.SURVEY_TYPE,
+      title: surveys.postWorkout.title,
+      description: surveys.postWorkout.description,
+      minutesToComplete: surveys.postWorkout.minutesToComplete,
+      rpTask: surveys.postWorkout.survey,
+      measures: [],
+      notification: true,
+    );
+
+    protocol.addTaskControl(
+      NoUserTaskTrigger(taskName: 'Post Workout Survey'),
+      postWorkoutTask,
+      phone,
+    );
 
 
-  return protocol;
+    return protocol;
   }
 
   @override

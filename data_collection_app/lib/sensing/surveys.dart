@@ -17,6 +17,12 @@ class _Surveys {
 
   final Survey _morning = _MorningSurvey();
   Survey get morning => _morning;
+
+  final Survey _evening = _EveningSurvey();
+  Survey get evening => _evening;
+
+  final Survey _postWorkout = _PostWorkoutSurvey();
+  Survey get postWorkout => _postWorkout;
 }
 
 /// An interface for an survey from the RP package.
@@ -316,6 +322,92 @@ class _MorningSurvey implements Survey {
 
           RPCompletionStep(
               identifier: 'morning_completion',
+              title: 'Finished',
+              text: 'Thank you for taking the tests'),
+        ],
+      );
+}
+
+class _EveningSurvey implements Survey {
+  @override
+  String get title => "Evening Survey";
+  @override
+  String get description => "A short survey on your evening mood.";
+  @override
+  int get minutesToComplete => 1;
+
+  final RPChoiceAnswerFormat _eveningChoices = RPChoiceAnswerFormat(
+      answerStyle: RPChoiceAnswerStyle.SingleChoice,
+      choices: [
+        RPChoice(text: "Very bad", value: 1),
+        RPChoice(text: "Bad", value: 2),
+        RPChoice(text: "Neutral", value: 3),
+        RPChoice(text: "Good", value: 4),
+        RPChoice(text: "Very good", value: 5),
+      ]);
+        
+    @override
+    RPTask get survey => RPOrderedTask(
+          identifier: "evening_survey",
+          steps: [
+            RPInstructionStep(
+                identifier: 'evening_instruction',
+                title: "Evening Survey",
+                text:
+                    "In the following page, you will be asked to answer a simple question about your mood this evening. "
+                    "Please sit down confortably and just relax. Remember that there are no right or wrong answers."),
+  
+            RPQuestionStep(
+              identifier: "evening_1",
+              title: "How do you feel this evening?",
+              answerFormat: _eveningChoices,
+            ),
+  
+            RPCompletionStep(
+                identifier: 'evening_completion',
+                title: 'Finished',
+                text: 'Thank you for taking the tests'),
+          ],
+        );
+  }
+
+class _PostWorkoutSurvey implements Survey {
+  @override
+  String get title => "Post Workout Survey";
+  @override
+  String get description => "A short survey on your post workout mood.";
+  @override
+  int get minutesToComplete => 1;
+
+  final RPChoiceAnswerFormat _postWorkoutChoices = RPChoiceAnswerFormat(
+      answerStyle: RPChoiceAnswerStyle.SingleChoice,
+      choices: [
+        RPChoice(text: "Very bad", value: 1),
+        RPChoice(text: "Bad", value: 2),
+        RPChoice(text: "Neutral", value: 3),
+        RPChoice(text: "Good", value: 4),
+        RPChoice(text: "Very good", value: 5),
+      ]);
+
+  @override
+  RPTask get survey => RPOrderedTask(
+        identifier: "post_workout_survey",
+        steps: [
+          RPInstructionStep(
+              identifier: 'post_workout_instruction',
+              title: "Post Workout Survey",
+              text:
+                  "In the following page, you will be asked to answer a simple question about your mood after workout. "
+                  "Please sit down confortably and just relax. Remember that there are no right or wrong answers."),
+
+          RPQuestionStep(
+            identifier: "post_workout_1",
+            title: "How do you feel after workout?",
+            answerFormat: _postWorkoutChoices,
+          ),
+
+          RPCompletionStep(
+              identifier: 'post_workout_completion',
               title: 'Finished',
               text: 'Thank you for taking the tests'),
         ],

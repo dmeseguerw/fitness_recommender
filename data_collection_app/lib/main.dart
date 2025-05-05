@@ -10,9 +10,11 @@ import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart' hide TimeOfDay;
 import 'package:flutter/services.dart';
-import 'package:permission_handler/permission_handler.dart';
+// import 'package:carp_firebase_backend/carp_firebase_backend.dart';
 
 import 'package:carp_core/carp_core.dart';
 import 'package:carp_mobile_sensing/carp_mobile_sensing.dart';
@@ -21,6 +23,7 @@ import 'package:carp_mobile_sensing/carp_mobile_sensing.dart';
 import 'package:carp_context_package/carp_context_package.dart';
 import 'package:carp_survey_package/survey.dart';
 import 'package:carp_audio_package/media.dart';
+import 'package:pulmonary_monitor_app/firebase_options.dart';
 
 import 'package:research_package/research_package.dart';
 import 'package:cognition_package/cognition_package.dart';
@@ -42,6 +45,19 @@ part 'ui/cachet.dart';
 part 'ui/audio_measure_page.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  Future<String> signInAnonymously() async {
+    final userCredential = await FirebaseAuth.instance.signInAnonymously();
+    final uid = userCredential.user?.uid;
+    print('Signed in with temporary account: $uid');
+    return uid!;
+  }
+
+  String uid = await signInAnonymously();
 
   // Make sure to initialize CAMS and packages for json serialization
   CarpMobileSensing.ensureInitialized();
