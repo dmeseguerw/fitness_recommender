@@ -1,0 +1,128 @@
+name: pulmonary_monitor_app
+description: App for monitoring of pulmonary (i.e. respiratory) health build using CARP.
+version: 1.10.0
+homepage: https://github.com/cph-cachet/pulmonary_monitor_app
+publish_to: 'none'
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+  flutter: ">=3.19.0"
+
+platforms:
+  android:
+  ios:
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  carp_core: ^1.8.0
+  carp_mobile_sensing: ^1.12.5
+  carp_context_package: ^1.10.0
+  carp_connectivity_package: ^1.4.0
+  carp_survey_package: ^1.8.0
+  carp_audio_package: ^1.4.0
+  # carp_communication_package: ^1.4.0
+  permission_handler: ^11.4.0
+  
+  research_package: ^1.7.0
+  cognition_package: ^1.6.0
+
+  flutter_launcher_icons: ^0.14.0
+
+# Overriding carp libraries to use a local copy
+dependency_overrides:
+  # carp_core:
+  #   path: ../carp/carp.sensing-flutter/carp_core/
+  # carp_mobile_sensing:
+  #   path: ../carp/carp.sensing-flutter/carp_mobile_sensing/
+  # carp_context_package:
+  #   path: ../carp/carp.sensing-flutter/packages/carp_context_package/
+  # carp_connectivity_package:
+  #   path: ../carp/carp.sensing-flutter/packages/carp_connectivity_package/
+  # carp_audio_package:
+  #   path: ../carp/carp.sensing-flutter/packages/carp_audio_package/
+  # carp_survey_package:
+  #   path: ../carp/carp.sensing-flutter/packages/carp_survey_package/
+
+  # cognition_package:
+  #   path: ../cognition_package/  
+
+# Overriding carp libraries to use github branch
+# dependency_overrides:  
+#   carp_core:
+#     git:
+#       url: https://github.com/cph-cachet/carp.sensing-flutter.git
+#       ref: develop
+#       path: carp_core
+#   carp_mobile_sensing:
+#     git:
+#       url: https://github.com/cph-cachet/carp.sensing-flutter.git
+#       ref: develop
+#       path: carp_mobile_sensing
+#   carp_context_package:
+#     git:
+#       url: https://github.com/cph-cachet/carp.sensing-flutter.git
+#       ref: develop
+#       path: packages/carp_context_package/
+#   carp_survey_package:
+#     git:
+#       url: https://github.com/cph-cachet/carp.sensing-flutter.git
+#       ref: develop
+#       path: packages/carp_survey_package/
+#   carp_connectivity_package:
+#     git:
+#       url: https://github.com/cph-cachet/carp.sensing-flutter.git
+#       ref: develop
+#       path: packages/carp_connectivity_package/
+#   carp_audio_package:
+#     git:
+#       url: https://github.com/cph-cachet/carp.sensing-flutter.git
+#       ref: develop
+#       path: packages/carp_audio_package/
+#   research_package:
+#     git:
+#       url: https://github.com/cph-cachet/research.package.git
+#       ref: dev-carp-core-0_40_0
+
+dev_dependencies:
+#  flutter_test:
+#    sdk: flutter
+  test: any 
+  flutter_lints: any
+
+
+# Is used to change the default app launch icons on iOS and Android.
+# To install:
+#  1. import the 'flutter_launcher_icons' package above
+#  2. add the 'flutter_icons:' section below
+#  3. run 'flutter pub get'
+#  3. run 'flutter pub pub run flutter_launcher_icons:main'
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/lungs.png"
+
+
+# The following section is specific to Flutter.
+flutter:
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+   - assets/logo/cachet_logo.png
+   - assets/logo/lungs.png
+   - assets/images/maui.png
+   - assets/images/running.png
+   - assets/images/audio.png
+   - assets/images/cachet.png
+   - assets/images/survey.png
+   - assets/images/waving-hand.png
+   - assets/images/very-sad.png
+   - assets/images/sad.png
+   - assets/images/ok.png
+   - assets/images/happy.png
+   - assets/images/very-happy.png
+   - assets/lang/da.json
+   - assets/lang/en.json
+
