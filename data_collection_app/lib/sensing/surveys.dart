@@ -289,11 +289,98 @@ class _MorningSurvey implements Survey {
   @override
   String get title => "Morning Survey";
   @override
-  String get description => "A short survey on your morning mood.";
+  String get description => "A short survey on your sleep and morning mood.";
   @override
-  int get minutesToComplete => 1;
+  int get minutesToComplete => 2;
 
-  final RPChoiceAnswerFormat _morningChoices = RPChoiceAnswerFormat(
+  final RPChoiceAnswerFormat _scaleChoices = RPChoiceAnswerFormat(
+    answerStyle: RPChoiceAnswerStyle.SingleChoice,
+    choices: [
+      RPChoice(text: "Very poor", value: 1),
+      RPChoice(text: "Poor", value: 2),
+      RPChoice(text: "Fair", value: 3),
+      RPChoice(text: "Good", value: 4),
+      RPChoice(text: "Very good", value: 5),
+    ],
+  );
+
+  final RPChoiceAnswerFormat _moodChoices = RPChoiceAnswerFormat(
+    answerStyle: RPChoiceAnswerStyle.SingleChoice,
+    choices: [
+      RPChoice(text: "Very bad", value: 1),
+      RPChoice(text: "Bad", value: 2),
+      RPChoice(text: "Neutral", value: 3),
+      RPChoice(text: "Good", value: 4),
+      RPChoice(text: "Very good", value: 5),
+    ],
+  );
+
+  final RPChoiceAnswerFormat _stressChoices = RPChoiceAnswerFormat(
+    answerStyle: RPChoiceAnswerStyle.SingleChoice,
+    choices: [
+      RPChoice(text: "Very low", value: 1),
+      RPChoice(text: "Low", value: 2),
+      RPChoice(text: "Moderate", value: 3),
+      RPChoice(text: "High", value: 4),
+      RPChoice(text: "Very high", value: 5),
+    ],
+  );
+
+  final RPIntegerAnswerFormat _sleepHoursFormat = RPIntegerAnswerFormat(
+    minValue: 0,
+    maxValue: 24,
+    suffix: "hours",
+  );
+
+  @override
+  RPTask get survey => RPOrderedTask(
+        identifier: "morning_survey",
+        steps: [
+          RPInstructionStep(
+            identifier: 'morning_instruction',
+            title: "Morning Survey",
+            text:
+                "Please answer the following questions about your sleep and how you feel this morning.",
+          ),
+          RPQuestionStep(
+            identifier: "morning_sleep_duration",
+            title: "How many hours did you sleep last night?",
+            answerFormat: _sleepHoursFormat,
+          ),
+          RPQuestionStep(
+            identifier: "morning_sleep_quality",
+            title: "How would you rate your sleep quality?",
+            answerFormat: _scaleChoices,
+          ),
+          RPQuestionStep(
+            identifier: "morning_mood",
+            title: "How do you feel this morning?",
+            answerFormat: _moodChoices,
+          ),
+          RPQuestionStep(
+            identifier: "morning_stress",
+            title: "What is your current stress level?",
+            answerFormat: _stressChoices,
+          ),
+          RPCompletionStep(
+            identifier: 'morning_completion',
+            title: 'Finished',
+            text: 'Thank you for completing the survey!',
+          ),
+        ],
+      );
+}
+
+
+class _EveningSurvey implements Survey {
+  @override
+  String get title => "Evening Survey";
+  @override
+  String get description => "A short survey on your evening well-being.";
+  @override
+  int get minutesToComplete => 2;
+
+  final RPChoiceAnswerFormat _eveningChoices = RPChoiceAnswerFormat(
       answerStyle: RPChoiceAnswerStyle.SingleChoice,
       choices: [
         RPChoice(text: "Very bad", value: 1),
@@ -305,71 +392,41 @@ class _MorningSurvey implements Survey {
 
   @override
   RPTask get survey => RPOrderedTask(
-        identifier: "morning_survey",
+        identifier: "evening_survey",
         steps: [
           RPInstructionStep(
-              identifier: 'morning_instruction',
-              title: "Morning Survey",
+              identifier: 'evening_instruction',
+              title: "Evening Survey",
               text:
-                  "In the following page, you will be asked to answer a simple question about your mood this morning. "
-                  "Please sit down confortably and just relax. Remember that there are no right or wrong answers."),
-
+                  "In the following page, please answer the questions based on how you feel this evening. "
+                  "Please sit down confortably and relax. Remember that there are no right or wrong answers."),
           RPQuestionStep(
-            identifier: "morning_1",
-            title: "How do you feel this morning?",
-            answerFormat: _morningChoices,
+            identifier: "evening_fatigue",
+            title: "What is your current level of fatigue?",
+            answerFormat: _eveningChoices,
           ),
-
+          RPQuestionStep(
+            identifier: "evening_mood",
+            title: "What is your current mood level?",
+            answerFormat: _eveningChoices,
+          ),
+          RPQuestionStep(
+            identifier: "evening_context_stress",
+            title: "What is your current level of stress?",
+            answerFormat: _eveningChoices,
+          ),
+          RPQuestionStep(
+            identifier: "evening_context_recovery",
+            title: "How well do you feel you have recovered today?",
+            answerFormat: _eveningChoices,
+          ),
           RPCompletionStep(
-              identifier: 'morning_completion',
+              identifier: 'evening_completion',
               title: 'Finished',
               text: 'Thank you for taking the tests'),
         ],
       );
 }
-
-class _EveningSurvey implements Survey {
-  @override
-  String get title => "Evening Survey";
-  @override
-  String get description => "A short survey on your evening mood.";
-  @override
-  int get minutesToComplete => 1;
-
-  final RPChoiceAnswerFormat _eveningChoices = RPChoiceAnswerFormat(
-      answerStyle: RPChoiceAnswerStyle.SingleChoice,
-      choices: [
-        RPChoice(text: "Very bad", value: 1),
-        RPChoice(text: "Bad", value: 2),
-        RPChoice(text: "Neutral", value: 3),
-        RPChoice(text: "Good", value: 4),
-        RPChoice(text: "Very good", value: 5),
-      ]);
-        
-    @override
-    RPTask get survey => RPOrderedTask(
-          identifier: "evening_survey",
-          steps: [
-            RPInstructionStep(
-                identifier: 'evening_instruction',
-                title: "Evening Survey",
-                text:
-                    "In the following page, you will be asked to answer a simple question about your mood this evening. "
-                    "Please sit down confortably and just relax. Remember that there are no right or wrong answers."),
-  
-            RPQuestionStep(
-              identifier: "evening_1",
-              title: "How do you feel this evening?",
-              answerFormat: _eveningChoices,
-            ),
-  
-            RPCompletionStep(
-                identifier: 'evening_completion',
-                title: 'Finished',
-                text: 'Thank you for taking the tests'),
-          ],
-        );
-  }
 
 class _PostWorkoutSurvey implements Survey {
   @override
@@ -399,13 +456,11 @@ class _PostWorkoutSurvey implements Survey {
               text:
                   "In the following page, you will be asked to answer a simple question about your mood after workout. "
                   "Please sit down confortably and just relax. Remember that there are no right or wrong answers."),
-
           RPQuestionStep(
             identifier: "post_workout_1",
             title: "How do you feel after workout?",
             answerFormat: _postWorkoutChoices,
           ),
-
           RPCompletionStep(
               identifier: 'post_workout_completion',
               title: 'Finished',
