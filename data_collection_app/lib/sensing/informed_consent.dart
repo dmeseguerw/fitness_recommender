@@ -9,33 +9,38 @@ class InformedConsent {
     if (_informedConsent == null) {
       RPConsentSection overviewSection = RPConsentSection(
           type: RPConsentSectionType.Overview,
-          summary: "Welcome to this survey",
+          title: "General consent",
+          summary: "A brief overview of the study and consent process.",
           content:
-              "Overview dolor sit amet, consectetur adipiscing elit. Aenean a mi porttitor, bibendum elit elementum, placerat augue. Quisque eu sollicitudin tortor, sed egestas ante. Sed convallis, mauris quis malesuada convallis, lectus ante vestibulum ante, vel lobortis magna dui eu nisl. Proin ac pellentesque nulla. Morbi facilisis dui aliquam quam pulvinar efficitur. Duis at lorem vitae leo pharetra ultricies. Proin viverra eleifend varius. Nulla sed nisi ut enim placerat venenatis. Maecenas imperdiet accumsan ligula id varius. Donec rhoncus gravida odio vitae convallis.Nullam at tempor erat. Praesent euismod orci nec sollicitudin placerat. Nunc nec nibh efficitur, mattis ante sit amet, scelerisque libero. Aliquam et mollis erat. Pellentesque aliquam convallis turpis sit amet molestie. Duis accumsan venenatis imperdiet. Integer quis est non elit varius mattis. Donec hendrerit in nisl eget sollicitudin. Nulla sapien lacus, mattis non orci sed, commodo tincidunt risus.");
-
-      RPConsentSection dataGatheringSection = RPConsentSection(
-          type: RPConsentSectionType.DataGathering,
-          summary: "This is a summary for Data Gathering.",
-          content:
-              "Data Gathering dolor sit amet, consectetur adipiscing elit. Aenean a mi porttitor, bibendum elit elementum, placerat augue. Quisque eu sollicitudin tortor, sed egestas ante. Sed convallis, mauris quis malesuada convallis, lectus ante vestibulum ante, vel lobortis magna dui eu nisl. Proin ac pellentesque nulla. Morbi facilisis dui aliquam quam pulvinar efficitur. Duis at lorem vitae leo pharetra ultricies. Proin viverra eleifend varius. Nulla sed nisi ut enim placerat venenatis. Maecenas imperdiet accumsan ligula id varius. Donec rhoncus gravida odio vitae convallis.Nullam at tempor erat. Praesent euismod orci nec sollicitudin placerat. Nunc nec nibh efficitur, mattis ante sit amet, scelerisque libero. Aliquam et mollis erat. Pellentesque aliquam convallis turpis sit amet molestie. Duis accumsan venenatis imperdiet. Integer quis est non elit varius mattis. Donec hendrerit in nisl eget sollicitudin. Nulla sapien lacus, mattis non orci sed, commodo tincidunt risus.");
+              "By agreeing to participate in this study, you acknowledge that you have been informed about the purpose, procedures, and potential risks associated with the research. Your participation is voluntary, and you may choose to withdraw at any time without any penalties. Please read the following sections carefully to understand how your data will be handled and what is expected from you during the study.");
 
       RPConsentSection privacySection = RPConsentSection(
           type: RPConsentSectionType.Privacy,
-          summary: "This is a summary for Privacy.",
+          title: "Privacy consent",
+          summary: "How your personal data will be handled and protected.",
           content:
-              "Privacy dolor sit amet, consectetur adipiscing elit. Aenean a mi porttitor, bibendum elit elementum, placerat augue. Quisque eu sollicitudin tortor, sed egestas ante. Sed convallis, mauris quis malesuada convallis, lectus ante vestibulum ante, vel lobortis magna dui eu nisl. Proin ac pellentesque nulla. Morbi facilisis dui aliquam quam pulvinar efficitur. Duis at lorem vitae leo pharetra ultricies. Proin viverra eleifend varius. Nulla sed nisi ut enim placerat venenatis. Maecenas imperdiet accumsan ligula id varius. Donec rhoncus gravida odio vitae convallis.Nullam at tempor erat. Praesent euismod orci nec sollicitudin placerat. Nunc nec nibh efficitur, mattis ante sit amet, scelerisque libero. Aliquam et mollis erat. Pellentesque aliquam convallis turpis sit amet molestie. Duis accumsan venenatis imperdiet. Integer quis est non elit varius mattis. Donec hendrerit in nisl eget sollicitudin. Nulla sapien lacus, mattis non orci sed, commodo tincidunt risus.");
+              "Your privacy is very important to us. All the data collected during this study will be handled confidentially and used solely for research purposes. Personal information will not be shared with third parties without your explicit consent, unless required by law. We will take all necessary measures to protect your data and ensure that it is stored securely.");
+
+      RPConsentSection dataGatheringSection = RPConsentSection(
+          type: RPConsentSectionType.DataGathering,
+          title: "Data Gathering consent",
+          summary:
+              "Information on what data will be collected and its purpose.",
+          content:
+              "During this study, we will collect data on your Heart Rate Variability (HRV) using wearable devices or mobile sensors. We may also collect basic information such as age, gender, and health status to help analyze the data. The data collected will be used for research purposes only and will not be shared with third parties without your permission. Additionally, you will be asked to answer short questionnaires to provide context for the HRV data. By participating, you consent to the collection of this data.");
 
       RPConsentSection timeCommitmentSection = RPConsentSection(
           type: RPConsentSectionType.TimeCommitment,
-          summary: "This is a summary for Time Commitment.",
+          title: "Time Commitment consent",
+          summary: "Overview of the time required for your participation.",
           content:
-              "Time commitment dolor sit amet, consectetur adipiscing elit. Aenean a mi porttitor, bibendum elit elementum, placerat augue. Quisque eu sollicitudin tortor, sed egestas ante. Sed convallis, mauris quis malesuada convallis, lectus ante vestibulum ante, vel lobortis magna dui eu nisl. Proin ac pellentesque nulla. Morbi facilisis dui aliquam quam pulvinar efficitur. Duis at lorem vitae leo pharetra ultricies. Proin viverra eleifend varius. Nulla sed nisi ut enim placerat venenatis. Maecenas imperdiet accumsan ligula id varius. Donec rhoncus gravida odio vitae convallis.Nullam at tempor erat. Praesent euismod orci nec sollicitudin placerat. Nunc nec nibh efficitur, mattis ante sit amet, scelerisque libero. Aliquam et mollis erat. Pellentesque aliquam convallis turpis sit amet molestie. Duis accumsan venenatis imperdiet. Integer quis est non elit varius mattis. Donec hendrerit in nisl eget sollicitudin. Nulla sapien lacus, mattis non orci sed, commodo tincidunt risus.");
+              "This study will take approximately 5-10 minutes per day over the course of 14 days. You will be asked to wear a device and occasionally fill out short questionnaires.");
 
       RPConsentSignature signature =
           RPConsentSignature(identifier: "consentSignatureID");
 
       RPConsentDocument consentDocument = RPConsentDocument(
-          title: 'Demo Consent',
+          title: 'Consent form',
           sections: [
             overviewSection,
             dataGatheringSection,
@@ -49,7 +54,7 @@ class InformedConsent {
         consentDocument: consentDocument,
         reasonForConsent: 'By tapping AGREE you can take part in the study',
         text: 'Agreed?',
-        title: "Consent Review Step Title",
+        title: "Consent Review Step",
       );
 
       RPVisualConsentStep consentVisualStep = RPVisualConsentStep(
@@ -61,10 +66,10 @@ class InformedConsent {
         identifier: "introductionID",
         title: "Welcome!",
         text:
-            "Welcome to this study! We would like to kindly ask you to look over these terms and information which gives you an introduction to the study.",
-        detailText:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ultricies feugiat turpis nec efficitur. Integer in pharetra libero. Proin a leo eu enim porttitor hendrerit. Suspendisse vestibulum interdum mollis. Donec in sapien ut orci ultricies laoreet. Ut maximus ante id arcu feugiat scelerisque. Proin non rutrum libero. Aliquam blandit arcu ac dolor consequat maximus. Integer et dolor quis quam tempor porta quis vel nibh. Phasellus ullamcorper fringilla lorem, ac tempus sem cursus a. Aliquam maximus facilisis quam. Morbi hendrerit tempor tellus, ac hendrerit augue tincidunt eu. Cras convallis lorem at nulla mattis tristique.",
-        footnote: "(1) Important footnote",
+            "Welcome to the HRV analysis study! We would like to kindly ask you to look over the following terms and information which gives you an introduction to the study. ",
+        detailText: 
+            "The first set of consent steps will touch on the following topics: General consent, Data Gathering, Privacy, and Time Commitment. You will be asked to review the information and agree to participate in the study. Please read the information carefully before you decide to take part in the study. If you have any questions, please contact us at: \ns194725@dtu.dk or\ns232888@dtu.dk",
+        // footnote: "(1) Important footnote",
         imagePath: "assets/images/waving-hand.png",
       );
 
