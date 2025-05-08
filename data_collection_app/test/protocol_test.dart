@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:test/test.dart';
 
 import 'package:carp_core/carp_core.dart';
@@ -17,6 +18,12 @@ String _encode(Object object) =>
 
 void main() {
   StudyProtocol? protocol;
+
+  Future<void> writeToFile(String json, String fileName) async {
+    File file = File('carp/$fileName');
+    await file.writeAsString(json);
+    debugPrint("Done writing '$fileName'");
+    }
 
   // Make sure to initialize CAMS incl. json serialization
   CarpMobileSensing.ensureInitialized();
@@ -40,6 +47,13 @@ void main() {
       print(protocol);
       print(_encode(protocol!));
       expect(protocol?.ownerId, 'alex@uni.dk');
+    });
+
+    
+    /// Generates and save the study protocol as json file
+    test('protocol -> resources/protocol.json', () async {
+      protocol = await LocalStudyProtocolManager().getStudyProtocol('ignored');
+      await writeToFile(toJsonString(protocol!), 'resources/protocol.json');
     });
 
     test('StudyProtocol -> JSON -> StudyProtocol :: deep assert', () async {
