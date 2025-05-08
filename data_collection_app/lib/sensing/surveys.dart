@@ -3,17 +3,9 @@ part of '../main.dart';
 final surveys = _Surveys();
 
 class _Surveys {
-  final Survey _who5 = _WHO5Survey();
-  Survey get who5 => _who5;
 
   final Survey _demographics = _DemographicSurvey();
   Survey get demographics => _demographics;
-
-  final Survey _symptoms = _SymptomsSurvey();
-  Survey get symptoms => _symptoms;
-
-  final Survey _cognition = _CognitionSurvey();
-  Survey get cognition => _cognition;
 
   final Survey _morning = _MorningSurvey();
   Survey get morning => _morning;
@@ -40,71 +32,6 @@ abstract class Survey {
   RPTask get survey;
 }
 
-class _WHO5Survey implements Survey {
-  @override
-  String get title => "WHO5 Well-Being";
-  @override
-  String get description => "A short 5-item survey on your well-being.";
-  @override
-  int get minutesToComplete => 1;
-
-  final RPChoiceAnswerFormat _choiceAnswerFormat = RPChoiceAnswerFormat(
-    answerStyle: RPChoiceAnswerStyle.SingleChoice,
-    choices: [
-      RPChoice(text: "All of the time", value: 5),
-      RPChoice(text: "Most of the time", value: 4),
-      RPChoice(text: "More than half of the time", value: 3),
-      RPChoice(text: "Less than half of the time", value: 2),
-      RPChoice(text: "Some of the time", value: 1),
-      RPChoice(text: "At no time", value: 0),
-    ],
-  );
-
-  @override
-  RPTask get survey => RPOrderedTask(
-        identifier: "who5_survey",
-        steps: [
-          RPInstructionStep(
-              identifier: 'who5',
-              title: "WHO Well-Being Index",
-              text:
-                  "Please indicate for each of the following five statements which is closest to how you have been feeling over the last two weeks. "
-                  "Notice that higher numbers mean better well-being.\n\n"
-                  "Example: If you have felt cheerful and in good spirits more than half of the time during the last two weeks, "
-                  "select the box with the label 'More than half of the time'."),
-          RPQuestionStep(
-            identifier: "who5_1",
-            title: "I have felt cheerful and in good spirits",
-            answerFormat: _choiceAnswerFormat,
-          ),
-          RPQuestionStep(
-            identifier: "who5_2",
-            title: "I have felt calm and relaxed",
-            answerFormat: _choiceAnswerFormat,
-          ),
-          RPQuestionStep(
-            identifier: "who5_3",
-            title: "I have felt active and vigorous",
-            answerFormat: _choiceAnswerFormat,
-          ),
-          RPQuestionStep(
-            identifier: "who5_4",
-            title: "I woke up feeling fresh and rested",
-            answerFormat: _choiceAnswerFormat,
-          ),
-          RPQuestionStep(
-            identifier: "who5_5",
-            title: "My daily life has been filled with things that interest me",
-            answerFormat: _choiceAnswerFormat,
-          ),
-          RPCompletionStep(
-              identifier: "who5_ompletion",
-              title: "Finished",
-              text: "Thank you for filling out the survey!"),
-        ],
-      );
-}
-
 class _DemographicSurvey implements Survey {
   @override
   String get title => "Demographics";
@@ -116,7 +43,7 @@ class _DemographicSurvey implements Survey {
   final RPChoiceAnswerFormat _sexChoices = RPChoiceAnswerFormat(
       answerStyle: RPChoiceAnswerStyle.SingleChoice,
       choices: [
-        RPChoice(text: "Femal", value: 1),
+        RPChoice(text: "Female", value: 1),
         RPChoice(text: "Male", value: 2),
         RPChoice(text: "Other", value: 3),
         RPChoice(text: "Prefer not to say", value: 4),
@@ -125,53 +52,98 @@ class _DemographicSurvey implements Survey {
   final RPChoiceAnswerFormat _ageChoices = RPChoiceAnswerFormat(
       answerStyle: RPChoiceAnswerStyle.SingleChoice,
       choices: [
-        RPChoice(text: "Under 20", value: 1),
-        RPChoice(text: "20-29", value: 2),
-        RPChoice(text: "30-39", value: 3),
-        RPChoice(text: "40-49", value: 4),
-        RPChoice(text: "50-59", value: 5),
-        RPChoice(text: "60-69", value: 6),
-        RPChoice(text: "70-79", value: 7),
-        RPChoice(text: "80-89", value: 8),
-        RPChoice(text: "90 and above", value: 9),
-        RPChoice(text: "Prefer not to say", value: 10),
+        RPChoice(text: "18-24", value: 1),
+        RPChoice(text: "25-34", value: 2),
+        RPChoice(text: "35-45", value: 3),
       ]);
 
+  // Height
+  final RPIntegerAnswerFormat _heightChoices = RPIntegerAnswerFormat(
+    minValue: 0,
+    maxValue: 300,
+    suffix: "cm",
+  );
+  // Weight
+  final RPIntegerAnswerFormat _weightChoices = RPIntegerAnswerFormat(
+    minValue: 0,
+    maxValue: 300,
+    suffix: "kg",
+  );
+
+  // Occupation
+  final RPChoiceAnswerFormat _occupationChoices = RPChoiceAnswerFormat(
+      answerStyle: RPChoiceAnswerStyle.SingleChoice,
+      choices: [
+        RPChoice(text: "Student", value: 1),
+        RPChoice(text: "Employed", value: 2),
+        RPChoice(text: "Unemployed", value: 3),
+        RPChoice(text: "Retired", value: 4),
+        RPChoice(text: "Prefer not to say", value: 5),
+      ]);
+
+  // Fitness level (workout frequency)
+  final RPChoiceAnswerFormat _fitnessChoices = RPChoiceAnswerFormat(
+      answerStyle: RPChoiceAnswerStyle.SingleChoice,
+      choices: [
+        RPChoice(text: "Sedentary (little or no exercise)", value: 1),
+        RPChoice(text: "Lightly active (light exercise/sports 1-3 days/week)",
+            value: 2),
+        RPChoice(text: "Moderately active (moderate exercise/sports 3-5 days/week)",
+            value: 3),
+        RPChoice(text: "Very active (hard exercise/sports 6-7 days a week)",
+            value: 4),
+        RPChoice(text: "Super active (very hard exercise/sports & physical job)",
+            value: 5),
+      ]);
+
+  // Common types of exercise
+  final RPChoiceAnswerFormat _exerciseChoices = RPChoiceAnswerFormat(
+      answerStyle: RPChoiceAnswerStyle.MultipleChoice,
+      choices: [
+        RPChoice(text: "Running", value: 1),
+        RPChoice(text: "Cycling", value: 2),
+        RPChoice(text: "Swimming", value: 3),
+        RPChoice(text: "Weightlifting", value: 4),
+        RPChoice(text: "Yoga", value: 5),
+        RPChoice(text: "Other", value: 6),
+      ]);
+
+  // Alcohol consumption frequency
+  final RPChoiceAnswerFormat _alcoholChoices = RPChoiceAnswerFormat(
+      answerStyle: RPChoiceAnswerStyle.SingleChoice,
+      choices: [
+        RPChoice(text: "Never", value: 1),
+        RPChoice(text: "Rarely (1-2 times a month)", value: 2),
+        RPChoice(text: "Occasionally (1-2 times a week)", value: 3),
+        RPChoice(text: "Frequently (3-4 times a week)", value: 4),
+        RPChoice(text: "Daily", value: 5),
+      ]);
+
+
+  // Medical conditions that may affect the results of the survey
   final RPChoiceAnswerFormat _medicalChoices = RPChoiceAnswerFormat(
       answerStyle: RPChoiceAnswerStyle.MultipleChoice,
       choices: [
         RPChoice(text: "None", value: 1),
-        RPChoice(text: "Asthma", value: 2),
-        RPChoice(text: "Cystic fibrosis", value: 3),
-        RPChoice(text: "COPD/Emphysema", value: 4),
-        RPChoice(text: "Pulmonary fibrosis", value: 5),
-        RPChoice(text: "Other lung disease  ", value: 6),
-        RPChoice(text: "High Blood Pressure", value: 7),
-        RPChoice(text: "Angina", value: 8),
-        RPChoice(
-            text: "Previous stroke or Transient ischaemic attack  ", value: 9),
-        RPChoice(text: "Valvular heart disease", value: 10),
-        RPChoice(text: "Previous heart attack", value: 11),
-        RPChoice(text: "Other heart disease", value: 12),
-        RPChoice(text: "Diabetes", value: 13),
-        RPChoice(text: "Cancer", value: 14),
-        RPChoice(text: "Previous organ transplant", value: 15),
-        RPChoice(text: "HIV or impaired immune system", value: 16),
-        RPChoice(text: "Other long-term condition", value: 17),
-        RPChoice(text: "Prefer not to say", value: 18),
+        RPChoice(text: "Diabetes", value: 2),
+        RPChoice(text: "Hypertension", value: 3),
+        RPChoice(text: "Heart disease", value: 4),
+        RPChoice(text: "Respiratory disease", value: 5),
+        RPChoice(text: "Neurological disorder", value: 6),
+        RPChoice(text: "Other", value: 7),
       ]);
 
+  // Smoke frequency
   final RPChoiceAnswerFormat _smokeChoices = RPChoiceAnswerFormat(
       answerStyle: RPChoiceAnswerStyle.SingleChoice,
       choices: [
-        RPChoice(text: "Never smoked", value: 1),
-        RPChoice(text: "Ex-smoker", value: 2),
-        RPChoice(text: "Current smoker (less than once a day", value: 3),
-        RPChoice(text: "Current smoker (1-10 cigarettes pr day", value: 4),
-        RPChoice(text: "Current smoker (11-20 cigarettes pr day", value: 5),
-        RPChoice(text: "Current smoker (21+ cigarettes pr day", value: 6),
-        RPChoice(text: "Prefer not to say", value: 7),
+        RPChoice(text: "Never", value: 1),
+        RPChoice(text: "Occasionally (1-2 times a month)", value: 2),
+        RPChoice(text: "Regularly (1-2 times a week)", value: 3),
+        RPChoice(text: "Frequently (3-4 times a week)", value: 4),
+        RPChoice(text: "Daily", value: 5),
       ]);
+
 
   @override
   RPTask get survey => RPOrderedTask(
@@ -189,98 +161,44 @@ class _DemographicSurvey implements Survey {
           ),
           RPQuestionStep(
             identifier: "demo_3",
-            title: "Do you have any of these medical conditions?",
-            answerFormat: _medicalChoices,
+            title: "What is your height?",
+            answerFormat: _heightChoices,
           ),
           RPQuestionStep(
             identifier: "demo_4",
-            title: "Do you, or have you, ever smoked (including e-cigarettes)?",
+            title: "What is your weight?",
+            answerFormat: _weightChoices,
+          ),
+          RPQuestionStep(
+            identifier: "demo_5",
+            title: "What is your occupation?",
+            answerFormat: _occupationChoices,
+          ),
+          RPQuestionStep(
+            identifier: "demo_6",
+            title: "How often do you exercise?",
+            answerFormat: _fitnessChoices,
+          ),
+          RPQuestionStep(
+            identifier: "demo_7",
+            title: "What types of exercise do you do?",
+            answerFormat: _exerciseChoices,
+          ),
+          RPQuestionStep(
+            identifier: "demo_8",
+            title: "How often do you consume alcohol?",
+            answerFormat: _alcoholChoices,
+          ),
+          RPQuestionStep(
+            identifier: "demo_9",
+            title: "Do you have any of the following medical conditions?",
+            answerFormat: _medicalChoices,
+          ),
+          RPQuestionStep(
+            identifier: "demo_10",
+            title: "How often do you smoke?",
             answerFormat: _smokeChoices,
           ),
-        ],
-      );
-}
-
-class _SymptomsSurvey implements Survey {
-  @override
-  String get title => "Symptoms";
-  @override
-  String get description => "A short 1-item survey on your daily symptoms.";
-  @override
-  int get minutesToComplete => 1;
-
-  final RPChoiceAnswerFormat _symptomsChoices = RPChoiceAnswerFormat(
-      answerStyle: RPChoiceAnswerStyle.MultipleChoice,
-      choices: [
-        RPChoice(text: "None", value: 1),
-        RPChoice(text: "Fever (warmer than usual)", value: 2),
-        RPChoice(text: "Dry cough", value: 3),
-        RPChoice(text: "Wet cough", value: 4),
-        RPChoice(text: "Sore throat, runny or blocked nose", value: 5),
-        RPChoice(text: "Loss of taste and smell", value: 6),
-        RPChoice(
-            text: "Difficulty breathing or feeling short of breath", value: 7),
-        RPChoice(text: "Tightness in your chest", value: 8),
-        RPChoice(text: "Dizziness, confusion or vertigo", value: 9),
-        RPChoice(text: "Headache", value: 10),
-        RPChoice(text: "Muscle aches", value: 11),
-        RPChoice(text: "Chills", value: 12),
-        RPChoice(text: "Prefer not to say", value: 13),
-      ]);
-
-  @override
-  RPTask get survey => RPOrderedTask(
-        identifier: "symptoms_survey",
-        steps: [
-          RPQuestionStep(
-            identifier: "sym_1",
-            title: "Do you have any of the following symptoms today?",
-            answerFormat: _symptomsChoices,
-          ),
-        ],
-      );
-}
-
-class _CognitionSurvey implements Survey {
-  @override
-  String get title => "Cognitive Assessment";
-  @override
-  String get description => "A short 2-item cognitive assessment.";
-  @override
-  int get minutesToComplete => 2;
-
-  @override
-  RPTask get survey => RPOrderedTask(
-        identifier: "cognition_survey",
-        steps: [
-          RPInstructionStep(
-              identifier: 'cognitive_instruction',
-              title: "Cognitive Assessment",
-              text:
-                  "In the following pages, you will be asked to solve two simple test which will help assess your cognitive perfomance. "
-                  "Each test has an instruction page, which you should read carefully before starting the test.\n\n"
-                  "Please sit down confortably and just relax. Remember that there are no right or wrong answers."),
-          RPFlankerActivity(
-            identifier: 'flanker_1',
-            lengthOfTest: 300,
-            numberOfCards: 10,
-            includeResults: true,
-          ),
-          RPPictureSequenceMemoryActivity(
-              identifier: 'picture_sequence_memory_1',
-              lengthOfTest: 180,
-              numberOfTests: 1,
-              numberOfPics: 6,
-              includeResults: true),
-          // RPVisualArrayChangeActivity('visual_array_change_1',
-          //     lengthOfTest: 180,
-          //     numberOfTests: 3,
-          //     waitTime: 3,
-          //     includeResults: true),
-          RPCompletionStep(
-              identifier: 'cognition_completion',
-              title: 'Finished',
-              text: 'Thank you for taking the tests'),
         ],
       );
 }
@@ -362,6 +280,7 @@ class _MorningSurvey implements Survey {
             title: "What is your current stress level?",
             answerFormat: _stressChoices,
           ),
+          
           RPCompletionStep(
             identifier: 'morning_completion',
             title: 'Finished',
@@ -370,7 +289,6 @@ class _MorningSurvey implements Survey {
         ],
       );
 }
-
 
 class _EveningSurvey implements Survey {
   @override
@@ -399,7 +317,7 @@ class _EveningSurvey implements Survey {
               title: "Evening Survey",
               text:
                   "In the following page, please answer the questions based on how you feel this evening. "
-                  "Please sit down confortably and relax. Remember that there are no right or wrong answers."),
+                  "Please sit down comfortably and relax. Remember that there are no right or wrong answers."),
           RPQuestionStep(
             identifier: "evening_fatigue",
             title: "What is your current level of fatigue?",
@@ -436,35 +354,139 @@ class _PostWorkoutSurvey implements Survey {
   @override
   int get minutesToComplete => 1;
 
-  final RPChoiceAnswerFormat _postWorkoutChoices = RPChoiceAnswerFormat(
+  // Perceived exertion scale (1-5)
+  final RPChoiceAnswerFormat _exertionChoices = RPChoiceAnswerFormat(
+    answerStyle: RPChoiceAnswerStyle.SingleChoice,
+    choices: [
+      RPChoice(text: "Very low", value: 1),
+      RPChoice(text: "Low", value: 2),
+      RPChoice(text: "Moderate", value: 3),
+      RPChoice(text: "High", value: 4),
+      RPChoice(text: "Very high", value: 5),
+    ],
+  );
+
+  // type of workout
+  final RPChoiceAnswerFormat _workoutTypeChoices = RPChoiceAnswerFormat(
       answerStyle: RPChoiceAnswerStyle.SingleChoice,
       choices: [
-        RPChoice(text: "Very bad", value: 1),
-        RPChoice(text: "Bad", value: 2),
-        RPChoice(text: "Neutral", value: 3),
-        RPChoice(text: "Good", value: 4),
-        RPChoice(text: "Very good", value: 5),
+        RPChoice(text: "Cardio", value: 1),
+        RPChoice(text: "Strength training", value: 2),
+        RPChoice(text: "Flexibility", value: 3),
+        RPChoice(text: "Balance", value: 4),
+        RPChoice(text: "Other", value: 5),
       ]);
+
+  // intensity of workout
+  final RPChoiceAnswerFormat _intensityChoices = RPChoiceAnswerFormat(
+      answerStyle: RPChoiceAnswerStyle.SingleChoice,
+      choices: [
+        RPChoice(text: "Very low", value: 1),
+        RPChoice(text: "Low", value: 2),
+        RPChoice(text: "Moderate", value: 3),
+        RPChoice(text: "High", value: 4),
+        RPChoice(text: "Very high", value: 5),
+      ]);
+
+  // duration of workout in ranges
+  final RPChoiceAnswerFormat _durationChoices = RPChoiceAnswerFormat(
+    answerStyle: RPChoiceAnswerStyle.SingleChoice,
+    choices: [
+      RPChoice(text: "Less than 15 minutes", value: 1),
+      RPChoice(text: "15-30 minutes", value: 2),
+      RPChoice(text: "30-45 minutes", value: 3),
+      RPChoice(text: "45-60 minutes", value: 4),
+      RPChoice(text: "More than 60 minutes", value: 5),
+    ],
+  );
+
+  // emotional state after workout with emotions scale
+  final RPChoiceAnswerFormat _emotionalStateChoices = RPChoiceAnswerFormat(
+    answerStyle: RPChoiceAnswerStyle.MultipleChoice,
+    choices: [
+      RPChoice(text: "Happy", value: 1),
+      RPChoice(text: "Sad", value: 2),
+      RPChoice(text: "Angry", value: 3),
+      RPChoice(text: "Relaxed", value: 4),
+      RPChoice(text: "Stressed", value: 5),
+      RPChoice(text: "Excited", value: 6),
+    ],
+  );
+
+  // fatigue after workout
+  final RPChoiceAnswerFormat _fatigueAfterChoices = RPChoiceAnswerFormat(
+    answerStyle: RPChoiceAnswerStyle.SingleChoice,
+    choices: [
+      RPChoice(text: "Very low", value: 1),
+      RPChoice(text: "Low", value: 2),
+      RPChoice(text: "Moderate", value: 3),
+      RPChoice(text: "High", value: 4),
+      RPChoice(text: "Very high", value: 5),
+    ],
+  );
+
+  // energy level after workout
+  final RPChoiceAnswerFormat _energyAfterChoices = RPChoiceAnswerFormat(
+    answerStyle: RPChoiceAnswerStyle.SingleChoice,
+    choices: [
+      RPChoice(text: "Very low", value: 1),
+      RPChoice(text: "Low", value: 2),
+      RPChoice(text: "Moderate", value: 3),
+      RPChoice(text: "High", value: 4),
+      RPChoice(text: "Very high", value: 5),
+    ],
+  );
 
   @override
   RPTask get survey => RPOrderedTask(
         identifier: "post_workout_survey",
         steps: [
           RPInstructionStep(
-              identifier: 'post_workout_instruction',
-              title: "Post Workout Survey",
-              text:
-                  "In the following page, you will be asked to answer a simple question about your mood after workout. "
-                  "Please sit down confortably and just relax. Remember that there are no right or wrong answers."),
+            identifier: 'post_workout_instruction',
+            title: "Post Workout Survey",
+            text:
+                "Please answer the following questions about your workout and how you feel after it.",
+          ),
           RPQuestionStep(
-            identifier: "post_workout_1",
-            title: "How do you feel after workout?",
-            answerFormat: _postWorkoutChoices,
+            identifier: "post_workout_exertion",
+            title: "How would you rate your perceived exertion during the workout?",
+            answerFormat: _exertionChoices,
+          ),
+          RPQuestionStep(
+            identifier: "post_workout_type",
+            title: "What type of workout did you do?",
+            answerFormat: _workoutTypeChoices,
+          ),
+          RPQuestionStep(
+            identifier: "post_workout_intensity",
+            title: "How would you rate the intensity of your workout?",
+            answerFormat: _intensityChoices,
+          ),
+          RPQuestionStep(
+            identifier: "post_workout_duration",
+            title: "How long was your workout?",
+            answerFormat: _durationChoices,
+          ),
+          RPQuestionStep(
+            identifier: "post_workout_emotional_state",
+            title: "How do you feel after the workout?",
+            answerFormat: _emotionalStateChoices,
+          ),
+          RPQuestionStep(
+            identifier: "post_workout_fatigue",
+            title: "How fatigued do you feel after the workout?",
+            answerFormat: _fatigueAfterChoices,
+          ),
+          RPQuestionStep(
+            identifier: "post_workout_energy",
+            title: "How energetic do you feel after the workout?",
+            answerFormat: _energyAfterChoices,
           ),
           RPCompletionStep(
-              identifier: 'post_workout_completion',
-              title: 'Finished',
-              text: 'Thank you for taking the tests'),
+            identifier: 'post_workout_completion',
+            title: 'Finished',
+            text: 'Thank you for completing the survey!',
+          ),
         ],
       );
 }
